@@ -120,7 +120,7 @@ func main() {
 			tweets = newTweets
 		}
 		for _, item := range diff {
-			if strings.Contains(item.Text, "tip") || strings.Contains(item.Text, "consejo") {
+			if strings.Contains(item.Text, "tip") || strings.Contains(item.Text, "consej") || strings.Contains(item.Text,"curios") {
 				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
 				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" "+tips.Tips[rand.Int()%len(tips.Tips)].Text, parametros)
 				if err != nil {
