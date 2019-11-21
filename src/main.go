@@ -122,6 +122,8 @@ func main() {
 		for _, item := range diff {
 			if strings.Contains(strings.ToLower(item.Text), "traya"){
 				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+				p := &twitter.FavoriteCreateParams{ID:item.ID}
+				client.Favorites.Create(p)
 				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Metáse usted con el creador de Python, parguela. ", parametros)
 				if err != nil {
 					log.Println(err)
@@ -129,6 +131,8 @@ func main() {
 			}
 			if strings.Contains(strings.ToLower(item.Text), "tip") || strings.Contains(strings.ToLower(item.Text), "consej") || strings.Contains(strings.ToLower(item.Text), "curios") {
 				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+				p := &twitter.FavoriteCreateParams{ID:item.ID}
+				client.Favorites.Create(p)
 				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" "+tips.Tips[rand.Int()%len(tips.Tips)].Text, parametros)
 				if err != nil {
 					log.Println(err)
@@ -136,12 +140,16 @@ func main() {
 			} else {
 				if strings.Contains(strings.ToLower(item.Text), "batal") || strings.Contains(strings.ToLower(item.Text), "batt") || strings.Contains(strings.ToLower(item.Text), "pele") {
 					parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+					p := &twitter.FavoriteCreateParams{ID:item.ID}
+					client.Favorites.Create(p)
 					_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Hola rival,un consejito @BJARNE_HPP_ "+tips.Tips[rand.Int()%len(tips.Tips)].Text, parametros)
 					if err != nil {
 						log.Println(err)
 					}
 				} else {
 					parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+					p := &twitter.FavoriteCreateParams{ID:item.ID}
+					client.Favorites.Create(p)
 					_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Bjarne Strouptrup te vigila ;-)", parametros)
 					if err != nil {
 						log.Println(err)
