@@ -104,7 +104,7 @@ func main() {
 		log.Println(err)
 	}
 	// Inicialización de los tips.
-	tips := readJSON("./resources/tips.json")
+	tips := readJSON("../resources/tips.json")
 	par := &twitter.SearchTweetParams{Query: "#DimeBjarne", ResultType: "recent"}
 	search, _, err := client.Search.Tweets(par)
 	tweets := search.Statuses
@@ -120,17 +120,32 @@ func main() {
 			tweets = newTweets
 		}
 		for _, item := range diff {
-			if strings.Contains(item.Text, "tip") || strings.Contains(item.Text, "consej") || strings.Contains(item.Text,"curios") {
+			if strings.Contains(strings.ToLower(item.Text), "traya"){
+				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Metáse usted con el creador de Python, parguela. ", parametros)
+				if err != nil {
+					log.Println(err)
+				}
+			}
+			if strings.Contains(strings.ToLower(item.Text), "tip") || strings.Contains(strings.ToLower(item.Text), "consej") || strings.Contains(strings.ToLower(item.Text), "curios") {
 				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
 				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" "+tips.Tips[rand.Int()%len(tips.Tips)].Text, parametros)
 				if err != nil {
 					log.Println(err)
 				}
 			} else {
-				parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
-				_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Bjarne Strouptrup te vigila ;-)", parametros)
-				if err != nil {
-					log.Println(err)
+				if strings.Contains(strings.ToLower(item.Text), "batal") || strings.Contains(strings.ToLower(item.Text), "batt") || strings.Contains(strings.ToLower(item.Text), "pele") {
+					parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+					_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Hola rival,un consejito @BJARNE_HPP_ "+tips.Tips[rand.Int()%len(tips.Tips)].Text, parametros)
+					if err != nil {
+						log.Println(err)
+					}
+				} else {
+					parametros := &twitter.StatusUpdateParams{InReplyToStatusID: item.ID}
+					_, _, err := client.Statuses.Update("@"+item.User.ScreenName+" Bjarne Strouptrup te vigila ;-)", parametros)
+					if err != nil {
+						log.Println(err)
+					}
 				}
 			}
 			log.Println("Nuevo tweet")
